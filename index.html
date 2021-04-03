@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+<div id="app">
+<v-app>
+<v-main>
+<v-toolbar
+class="primary px-15"
+flat
+dark
+
+>
+<h3>Calculate My Home</h3>
+</v-toolbar>
+<v-container>
+    <template>
+        <v-stepper v-model="e1">
+          <v-stepper-header>
+            <v-stepper-step
+              :complete="e1 > 1"
+              step="1"
+            >
+              Step 1
+            </v-stepper-step>
+      
+            <v-divider></v-divider>
+      
+            <v-stepper-step
+              :complete="e1 > 2"
+              step="2"
+            >
+              Step 2
+            </v-stepper-step>
+      
+            <v-divider></v-divider>
+      
+            <v-stepper-step step="3">
+              Step 3
+            </v-stepper-step>
+          </v-stepper-header>
+      
+          <v-stepper-items>
+            <v-stepper-content step="1">
+            <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+            >
+
+
+            <v-row>
+            <v-col class="ml-5" md="12" sm="12" cols="12">
+            <p class="font-weight-bold">Do you Know Length of your Gutter?</p>
+
+            <v-radio-group :rules="Rules" v-model="gutter_length_yes_no" row>
+            <v-radio label="Yes" value="Yes"></v-radio>
+            <v-radio label="No" value="No"></v-radio>
+            </v-radio-group>
+
+            </v-col>
+            <v-col v-if="gutter_length_yes_no == 'Yes'"  class="ml-5" md="12" sm="12" cols="12">
+            <p class="font-weight-bold">Length - feet</p>
+            <v-text-field type="number" v-model="gutter_length" value="150" required></v-text-field>
+            </v-col>   
+
+            <v-col v-else v-else  class="ml-5" md="12" sm="12" cols="12">
+            <p class="font-weight-bold">What Type of Project do you have?</p>
+            <v-radio-group
+            :rules="Rules"
+            v-model="type_of_project"
+            row
+            >
+            <v-radio
+            label="New Construction"
+            value="New Construction"
+            ></v-radio>
+            <v-radio
+            label="Renovation"
+            :value="Renovation"
+            ></v-radio>
+            </v-radio-group>
+            </v-col>   
+
+            <v-col  class="ml-5" md="12" sm="12" cols="12">
+            <p class="font-weight-bold" >Address</p>
+            <v-textarea rows="1" :rules="Rules" v-model="address" value="150" required></v-textarea>
+            </v-col>  
+
+            <v-col  class="ml-5" md="12" sm="12" cols="12">
+            <p class="font-weight-bold">Number of Downspouts?</p>
+            <v-text-field :rules="Rules" type="number" v-model="downspouts" value="150" required></v-text-field>
+            </v-col>  
+
+            <v-col class="ml-5" md="12" sm="12" cols="12">
+            <p class="font-weight-bold">How many Stories does your home have?</p>
+
+            <v-radio-group v-model="home_stories" row>
+            <v-radio label="1" value="1"></v-radio>
+            <v-radio label="2" value="2"></v-radio>
+            <v-radio label="3" value="3"></v-radio>
+            <v-radio label="4+" value="4+"></v-radio>
+            </v-radio-group>
+
+            </v-col>
+
+
+
+            <v-col class="ml-5" md="6" sm="12" cols="12">
+
+              
+            <v-btn
+            color="primary"
+            small
+            @click="submit1"
+            >
+            Continue
+            </v-btn>
+            </v-col>   
+
+
+
+
+            </v-row>
+
+            </v-form>
+                
+
+               
+                      
+
+            </v-stepper-content>
+      
+            <v-stepper-content step="2">
+
+                <v-form
+                ref="form1"
+                v-model="valid"
+                lazy-validation
+                >
+
+
+
+                <v-col class="ml-5" md="6" sm="12" cols="12">
+
+
+                    <p class="font-weight-bold">Select Color of Gutter.</p>
+
+                    <v-radio-group :rules="Rules" v-model="color_of_gutter">
+                        <v-radio label="Baige" value="Baige"></v-radio>
+                        <v-radio label="Black" value="Black"></v-radio>
+                        <v-radio label="Cactus" value="Cactus"></v-radio>
+                        <v-radio label="Cashmere" value="Cashmere"></v-radio>
+                        <v-radio label="Charcoal" value="Charcoal"></v-radio>
+                        <v-radio label="Chocolate Brown" value="Chocolate Brown"></v-radio>
+                        <v-radio label="Commercial grey" value="Commercial grey"></v-radio>
+                        <v-radio label="Forrest Green" value="Forrest Green"></v-radio>
+                        <v-radio label="Georgian Grey" value="Georgian Grey"></v-radio>
+                        <v-radio label="Ivory" value="Ivory"></v-radio>
+
+
+
+
+                        <v-radio label="Khaki" value="Khaki"></v-radio>
+                        <v-radio label="Linen" value="Linen"></v-radio>
+                        <v-radio label="MC Beige" value="MC Beige"></v-radio>
+                        <v-radio label="Mocha" value="Mocha"></v-radio>
+                        <v-radio label="Pearl Grey" value="Pearl Grey"></v-radio>
+                        <v-radio label="Rustic Granite" value="Rustic Granite"></v-radio>
+                        <v-radio label="Sandal Wood" value="Sandal Wood"></v-radio>
+                        <v-radio label="SG Chocolate" value="SG Chocolate"></v-radio>
+                        <v-radio label="Wicker" value="Wicker"></v-radio>
+                        <v-radio label="Wolf White" value="Wolf White"></v-radio>
+                        <v-radio label="Sandal Wood MC" value="Sandal Wood MC"></v-radio>
+            
+                    
+
+                    </v-radio-group>
+                   
+                    </v-col>   
+
+                <v-col class="ml-5" md="6" sm="12" cols="12">
+
+                    <p class="font-weight-bold">Add leaf Guard?</p>
+
+                    <v-radio-group :rules="Rules" v-model="leaf_guard" row>
+                    <v-radio label="Yes" value="Yes"></v-radio>
+                    <v-radio label="No" value="No"></v-radio>
+                    </v-radio-group>
+                   
+                    </v-col>   
+
+
+                    <v-col class="ml-5" md="6" sm="12" cols="12">
+
+                        <p class="font-weight-bold">When Are you looking to get your gutters installed?</p>
+    
+                        <v-radio-group :rules="Rules" v-model="gutter_installed" row>
+                        <v-radio label="i'm flexible" value="i'm flexible"></v-radio>
+                        <v-radio label="As soon as possible" value="As soon as possible"></v-radio>
+                        </v-radio-group>
+                       
+                        </v-col>   
+
+                        <v-col class="ml-5" md="6" sm="12" cols="12">
+
+                            <p class="font-weight-bold">What days work best for you?</p>
+        
+                            <v-radio-group :rules="Rules" v-model="best_working_days" row>
+                            <v-radio label="Any day" value="Any day"></v-radio>
+                            <v-radio label="Monday - Friday" value="Monday - Friday"></v-radio>
+                            <v-radio label="Weekends" value="Weekends"></v-radio>
+                            </v-radio-group>
+                            
+                           
+                            </v-col>   
+
+                        
+
+                    <v-col class="ml-5" md="6" sm="12" cols="12">
+
+              
+                        <v-btn
+                        color="primary"
+                        small
+                        @click="submit2"
+                        >
+                        Continue
+                        </v-btn>
+
+                        <v-btn text small   @click="e1 = 1">
+                            Cancel
+                         </v-btn>
+                        </v-col>   
+
+                  </v-form>
+
+            
+            </v-stepper-content>
+      
+            <v-stepper-content step="3">
+
+              <v-form
+              ref="form2"
+              v-model="valid"
+              lazy-validation
+              >
+              <v-row class="mt-3"> 
+              <v-col md="12" sm="12" cols="12">
+              <p class="font-weight-bold">First Name</p>
+              <v-text-field v-model="first_name" label="First Name" required></v-text-field>
+              </v-col>
+
+              <v-col md="12" sm="12" cols="12">
+              <p class="font-weight-bold">Last Name</p>
+              <v-text-field v-model="last_name" label="Last Name" required></v-text-field>
+              </v-col>
+
+              <v-col md="12" sm="12" cols="12">
+                <v-text-field v-model="phone" label="Phone" type="number" required></v-text-field>
+                </v-col>
+                
+
+              <v-col md="12" sm="12" cols="12">
+              <p class="font-weight-bold">Email</p>
+              <v-text-field v-model="email" :rules="emailRules" label="Enter your Email" required></v-text-field>
+              </v-col>
+
+              
+              <v-col md="12" sm="12" cols="12">
+                <p class="font-weight-bold">Additional information we should know?</p>
+                <v-textarea rows="1" :rules="Rules" v-model="additional_information" value="150" required></v-textarea>
+              </v-col>
+
+
+              </v-row>
+              </v-form>
+
+            
+              <v-btn
+                color="primary"
+                @click="submit3"
+                small
+              >
+                Continue
+              </v-btn>
+      
+              <v-btn text>
+                Cancel
+              </v-btn>
+            </v-stepper-content>
+          </v-stepper-items>
+        </v-stepper>
+      </template> 
+
+</v-container>
+</v-main>
+</v-app>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+<script>
+new Vue({
+el: '#app',
+vuetify: new Vuetify(),
+data :{
+
+e1: 1,    
+first_name : '',
+last_name : '',
+additional_information : '',
+email : '',
+age : '',
+city:'',
+
+gutter_length : 150,
+gutter_length_yes_no : "Yes",
+type_of_project : null,
+address : '',
+downspouts : null,
+home_stories : '1',
+leaf_guard : '', 
+gutter_installed : '', 
+best_working_days : '',
+color_of_gutter : '',
+
+phone : null, 
+cities : [
+{city:'city1'},
+{city:'city2'}
+],  
+valid : false,
+Rules: [
+v => !!v || 'This field is required',
+],
+email: '',
+emailRules: [
+v => !!v || 'E-mail is required',
+v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+],
+
+
+},
+mounted () {
+},
+methods : {
+
+    
+    submit1 (){  
+
+      // this.e1 = 2;
+        
+        if(this.$refs.form.validate()){
+
+            this.e1 = 2;
+
+        }
+    },
+
+    submit2 (){  
+
+      // this.e1 = 3;
+        
+        if(this.$refs.form1.validate()){
+           this.e1 = 3;
+        }
+    },
+
+    submit3 (){  
+        
+        if(this.$refs.form2.validate()){
+           this.e1 = 1;
+        }
+    },
+
+
+},
+
+
+computed : {},
+})
+</script>
+</body>
+</html>
