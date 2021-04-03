@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+<!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">-->
+<link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet"> 
+<link href="/vuetify.min.css" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <body>
@@ -16,7 +16,7 @@ flat
 dark
 
 >
-<h3>Calculate My Home</h3>
+<h3>Calculate My Home {{get_gutter_length}} , {{price_after_gutter_length}} , {{get_downspouts_price}}</h3>
 </v-toolbar>
 <v-container>
     <template>
@@ -66,10 +66,14 @@ dark
             </v-col>
             <v-col v-if="gutter_length_yes_no == 'Yes'"  class="ml-5" md="12" sm="12" cols="12">
             <p class="font-weight-bold">Length - feet</p>
-            <v-text-field type="number" v-model="gutter_length" value="150" required></v-text-field>
+            <v-text-field type="number" v-model="gutter_length" required></v-text-field>
+
+         
             </v-col>   
 
-            <v-col v-else v-else  class="ml-5" md="12" sm="12" cols="12">
+          
+            <v-col class="ml-5" md="12" sm="12" cols="12">
+
             <p class="font-weight-bold">What Type of Project do you have?</p>
             <v-radio-group
             :rules="Rules"
@@ -82,7 +86,7 @@ dark
             ></v-radio>
             <v-radio
             label="Renovation"
-            :value="Renovation"
+            value="Renovation"
             ></v-radio>
             </v-radio-group>
             </v-col>   
@@ -287,7 +291,6 @@ dark
                 @click="submit3"
                 small
               >
-                Calculate My Home
               </v-btn>
       
               <v-btn text @click="e1 = 2">
@@ -297,14 +300,15 @@ dark
           </v-stepper-items>
         </v-stepper>
       </template> 
+      {{total_price}}
 
 </v-container>
 </v-main>
 </v-app>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="/vue.js"></script>
+<script src="/vuetify.js"></script>
 
 <script>
 new Vue({
@@ -320,11 +324,12 @@ email : '',
 age : '',
 city:'',
 
-gutter_length : 150,
+gutter_length : null,
 gutter_length_yes_no : "Yes",
 type_of_project : null,
 address : '',
 downspouts : null,
+
 home_stories : '1',
 leaf_guard : '', 
 gutter_installed : '', 
@@ -351,6 +356,8 @@ v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
 mounted () {
 },
 methods : {
+
+
 
     
     submit1 (){  
@@ -384,7 +391,35 @@ methods : {
 },
 
 
-computed : {},
+computed : {
+  get_gutter_length(){
+    return this.gutter_length_yes_no == 'Yes' ? this.gutter_length : 150 ;
+  },
+  price_after_gutter_length () {
+
+    if(this.type_of_project == 'New Construction'){
+      return this.get_gutter_length * 4; 
+    }
+    else if(this.type_of_project == 'Renovation'){
+      return this.get_gutter_length * 5; 
+    }
+
+
+
+  },
+
+  get_downspouts_price () {
+    return this.downspouts * 50; 
+  },
+
+
+
+  total_price () {
+
+    return this.price_after_gutter_length + this.get_downspouts_price
+
+  },
+},
 })
 </script>
 </body>
