@@ -16,7 +16,7 @@ flat
 dark
 
 >
-<h3>Calculate My Home {{get_gutter_length}} , {{price_after_gutter_length}} , {{get_downspouts_price}}</h3>
+<h3>Calculate My Home</h3>
 </v-toolbar>
 <v-container>
     <template>
@@ -105,10 +105,11 @@ dark
             <p class="font-weight-bold">How many Stories does your home have?</p>
 
             <v-radio-group v-model="home_stories" row>
-            <v-radio label="1" value="1"></v-radio>
-            <v-radio label="2" value="2"></v-radio>
-            <v-radio label="3" value="3"></v-radio>
-            <v-radio label="4+" value="4+"></v-radio>
+            <v-radio label="1" value="0"></v-radio>
+            <v-radio label="2" value="0.25"></v-radio>
+            <v-radio label="3" value="0.50"></v-radio>
+            <v-radio label="4+" value="1"></v-radio>
+
             </v-radio-group>
 
             </v-col>
@@ -123,7 +124,7 @@ dark
             small
             @click="submit1"
             >
-            Continue
+            Continue {{total_price}}
             </v-btn>
             </v-col>   
 
@@ -298,9 +299,10 @@ dark
               </v-btn>
             </v-stepper-content>
           </v-stepper-items>
+         
         </v-stepper>
       </template> 
-      {{total_price}}
+
 
 </v-container>
 </v-main>
@@ -330,7 +332,7 @@ type_of_project : null,
 address : '',
 downspouts : null,
 
-home_stories : '1',
+home_stories : '',
 leaf_guard : '', 
 gutter_installed : '', 
 best_working_days : '',
@@ -403,21 +405,28 @@ computed : {
     else if(this.type_of_project == 'Renovation'){
       return this.get_gutter_length * 5; 
     }
-
-
-
   },
 
   get_downspouts_price () {
     return this.downspouts * 50; 
   },
 
+  get_stories_price () {
+    return this.get_gutter_length * this.home_stories;
+  },
+
+get_leaf_gaurd_price(){
+  
+  if(this.type_of_project == 'Yes'){
+    return this.gutter_length * 6; 
+  }
+ 
+},
 
 
   total_price () {
-
-    return this.price_after_gutter_length + this.get_downspouts_price
-
+    return this.price_after_gutter_length + this.get_downspouts_price 
+    + this.get_stories_price + this.get_leaf_gaurd_price
   },
 },
 })
