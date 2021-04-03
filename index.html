@@ -5,6 +5,7 @@
 <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet"> 
 <link href="/vuetify.min.css" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
 </head>
 <body>
 <div id="app">
@@ -124,7 +125,7 @@ dark
             small
             @click="submit1"
             >
-            Continue {{total_price}}
+            Continue
             </v-btn>
             </v-col>   
 
@@ -292,6 +293,7 @@ dark
                 @click="submit3"
                 small
               >
+              Calculate My Home
               </v-btn>
       
               <v-btn text @click="e1 = 2">
@@ -360,6 +362,22 @@ mounted () {
 methods : {
 
 
+  send_data () {
+    var payload = {
+
+      full_name : 'full name',
+      address : 'address',
+      gutter_length : 100,
+      total_price : 1000,
+      email : 'francisgill1000@gmail.com',
+      phone : '0310855958',
+
+
+    };
+    axios.post(`https://appletradezone.com/public/api/send_email_test`,payload).then(res => console.log(res.data));
+  },
+
+
 
     
     submit1 (){  
@@ -385,7 +403,19 @@ methods : {
     submit3 (){  
         
         if(this.$refs.form2.validate()){
-           this.e1 = 1;
+          //  this.e1 = 1;
+            var payload = {
+
+            full_name : 'full name',
+            address : 'address',
+            gutter_length : 100,
+            total_price : 1000,
+            email : 'francisgill1000@gmail.com',
+            phone : '0310855958',
+
+
+            };
+            axios.post(`https://appletradezone.com/public/api/send_email_test`,payload).then(res => console.log(res));
         }
     },
 
@@ -417,8 +447,11 @@ computed : {
 
 get_leaf_gaurd_price(){
   
-  if(this.type_of_project == 'Yes'){
-    return this.gutter_length * 6; 
+  if(this.leaf_guard == 'Yes'){
+    return this.get_gutter_length * 6; 
+  }
+  else if(this.leaf_guard == 'No'){
+    return this.get_gutter_length * 0; 
   }
  
 },
